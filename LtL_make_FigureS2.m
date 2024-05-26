@@ -63,6 +63,7 @@ succ_per_block =[];
 sess_ordin_per_block=[];
 inter_per_block = [];
 first_per_block = [];
+isSSL_per_block = [];
 umouse = unique(mouse_num);
 nmouse = length(umouse);
 l=0;
@@ -95,7 +96,7 @@ for i = 1:nmouse
 
         %find the session ordiante, intra-criterion
         % inter critertion and success rate per
-        % block in the first session (use for fig S2B-C)
+        % block in the first session (use for fig S2B-F)
         blocks = block_ordinare(idx&idx2);
         ublocks = unique(blocks);
         nblocks = length(ublocks);
@@ -110,6 +111,8 @@ for i = 1:nmouse
             inter_per_block(l) = mean(inter_block);
             first_three_block = succ_rt(idx&idx2&idx3,3);
             first_per_block(l) = mean(first_three_block);
+            isSSL = SSL(idx&idx2&idx3);
+            isSSL_per_block(l) = mean(isSSL);
         end
     end
 end
@@ -158,9 +161,9 @@ title('figure S2B')
 Y = [sess_ordin_per_block' intra_per_block' inter_per_block' first_per_block'];
 figure;
 [ pcc, cc, ~, ~, R2 ] = calc_mr_local( succ_per_block',Y);
-barwerror(1:4,cc(:,1));
+barwerror_local(1:4,cc(:,1));
 hold on
-h= barwerror(1:4,pcc(:,1),pcc(:,2),[0 0 0]);
+h= barwerror_local(1:4,pcc(:,1),pcc(:,2),[0 0 0]);
 set(h,'FaceColor','none')
 set(h,'EdgeColor','k')
 set(h,'LineWidth' ,2)
@@ -170,6 +173,134 @@ set( gca, 'tickdir', 'out', 'box', 'off' )
 ylim([-0.5 0.5])
 ylabel('Rank correlation coefficient')
 set(gca,'XTickLabel',{'session ordinate'; 'intra-criterion distance'; 'inter-criterion distance';'first 3 trials'})
+
+
+% plot figure S2D - Variance in block success rate (R^2) explained by cross-
+%validated support vector regression models.
+Y = [sess_ordin_per_block' intra_per_block' inter_per_block' first_per_block'];
+mat = [succ_per_block' Y];
+sv_preprocess                   = 'scale';
+sv_model                        = 'svr';
+
+% cross-validated SVR:
+% get the variance for the R2's
+nreps                           = 20;
+R2_svr                          = NaN( nreps, 1 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2, res, fig ]            =  LtL_calc_mr_svr( mat( :, 2 : 5 ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr( i )                 = R2;
+end
+        
+% model comparison (importance):
+R2_svr_models                   = NaN( nreps, 4 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2_1, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 3 4 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_2, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 4 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_3, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_4, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );    
+    R2_svr_models( i, : )       = [ R2_1 R2_2 R2_3 R2_4];
+end
+
+figure
+boxplot( R2_svr_models, 'notch', 'on' )
+set( gca, 'tickdir', 'out', 'box', 'off' )
+alines_local(median(R2_svr),'y')
+axis square
+ylim([0 0.5])
+pv = [];
+for i = 1:4
+    pv(i) = utest_local( R2_svr_models( :, i ), R2_svr );
+end
+title(sprintf('Figure S2D \n SVR, pv = %0.2g,%0.2g,%0.2g,%0.2g',pv));
+ylabel('Success rate R^2')
+set(gca,'XTickLabel',{'session ordinate removed';'Intra-criterion removed';'inter-criterion removerd';'first 3 trials removed'});
+
+% plot figure S2E -Accuracy in predicting SSL using 
+% cross-validated support vector classification.
+mat = [isSSL_per_block' Y];
+sv_preprocess                   = 'scale';
+sv_model                        = 'svm';
+
+
+% cross-validated SVM:
+% get the variance for the R2's
+nreps                           = 20;
+R2_svr                          = NaN( nreps, 1 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2, res, fig ]            =  LtL_calc_mr_svr( mat( :, 2 : 5 ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr( i )                 = R2;
+end
+        
+% model comparison (importance):
+R2_svr_models                   = NaN( nreps, 4 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2_1, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 3 4 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_2, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 4 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_3, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_4, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );   
+    R2_svr_models( i, : )       = [ R2_1 R2_2 R2_3 R2_4];
+end
+
+
+figure
+boxplot( R2_svr_models, 'notch', 'on' )
+set( gca, 'tickdir', 'out', 'box', 'off' )
+alines_local(median(R2_svr),'y','LineStyle','--');
+axis square
+ylim([0.5 1.1])
+pv = [];
+for i = 1:4
+    pv(i) = utest_local( R2_svr_models( :, i ), R2_svr );
+end
+title(sprintf('Figure S2E \n SVM, pv = %0.2g,%0.2g,%0.2g,%0.2g',pv));
+ylabel('SSL accuracy')
+set(gca,'XTickLabel',{'session ordinate removed';'Intra-criterion removed';'inter-criterion removerd';'first 3 trials removed'});
+
+% plot figure S2F -Accuracy in predicting SSL using single-
+%feature models.
+% model comparison (importance):
+R2_svr_models                   = NaN( nreps, 4 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2_1, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_2, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 3 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_3, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_4, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 5 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );   
+    R2_svr_models( i, : )       = [ R2_1 R2_2 R2_3 R2_4];
+end
+
+figure
+boxplot( R2_svr_models, 'notch', 'on' )
+set( gca, 'tickdir', 'out', 'box', 'off' )
+alines_local(median(R2_svr),'y','LineStyle','--');
+axis square
+ylim([0.5 1.1])
+pv = [];
+for i = 1:4
+    pv(i) = utest_local( R2_svr_models( :, i ), R2_svr );
+end
+title(sprintf('Figure S2F \n SVM, pv = %0.2g,%0.2g,%0.2g,%0.2g',pv));
+ylabel('SSL accuracy')
+set(gca,'XTickLabel',{'only session ordinate';'only intra-criterion';'only inter-criterion';'only first 3 trials'});
 
 return
 
@@ -753,4 +884,95 @@ for i                   = 1 : n
 end
 
 return              %make_cl_on_bar_local
+%------------------------------------------------------------------------%
+
+%------------------------------------------------------------------------
+% [ p, U, method ] = utest_local( x1, x2, test )
+% Mann-Whitney U-test
+%------------------------------------------------------------------------%
+% X1, X2      samples; may be unequal size
+% TEST        test type:
+%                               {0}     two sided, H1: X1 != X2
+%                                1      one sided, H1: X1 >  X2
+%                               -1      one sided, H1: X1 <  X2
+function [ p, U, method ] = utest_local( x1, x2, test )
+% handle arguments
+nargs = nargin;
+if nargs < 2
+    if size( x1, 2 ) == 2
+        x2 = x1( :, 2 );
+        x1 = x1( :, 1 );
+    else
+        error( '2 arguments' )
+    end
+end
+if nargs < 3 || isempty( test ), test = 0; end
+% handle special cases
+p = NaN;
+U = NaN;
+method = 'none'; 
+if isequal( x1, x2 ), p = 1; return, end
+if isempty( x1 ) || isempty( x2 ), p = 1; return, end
+
+% sample sizes
+x1 = x1( ~isnan( x1 ) );
+x2 = x2( ~isnan( x2 ) );
+x1 = x1( : );
+x2 = x2( : );
+n1 = length( x1 ); 
+n2 = length( x2 );
+n = n1 + n2;
+if n1 == 0 || n2 == 0
+    return
+end
+    
+% Mann-Whitney U statistic
+
+[ ranks, T ] = rankcols_local( [ x1; x2 ] );
+R = sum( ranks( 1 : n1 ) );
+C = n1 * n2 + n1 * ( n1 + 1 ) / 2 - R;              % p.429
+U = max( C, n1 * n2 - C );
+
+% significance
+
+expcR = n1 * ( n + 1 ) / 2;
+if ( n1 + n2 ) < 20
+    if T                                            % exact binomial
+        f = sum( nchoosek( ranks, n1 ), 2 );
+        if R < expcR
+            p = sum( f <= R ) / length( f );
+        else 
+            p = sum( f >= R ) / length( f );
+        end
+        method = 'exact';
+    else                                            % use a table based on no-ties (perfect for that case only)
+        eval( sprintf( 'load( ''utable.mat'', ''ptab_%d'' )', n ) )
+        if R < expcR
+            eval( sprintf( 'p = ptab_%d( ceil( R ), n1 );', n ) )
+        else
+            eval( sprintf( 'p = 1 - ptab_%d( ceil( R ) - 1, n1 );', n ) )
+        end
+        method = 'lookup';
+    end
+else                                                % approximate gaussian
+    nom = U - n1 * n2 / 2;
+    if T                                            % correction for ties, p.430
+        den = n1 * n2 / 12 / n / ( n - 1 ) * ( n .^ 3 - n - T );
+    else
+        den = n1 * n2 / 12 * ( n + 1 );
+    end
+    ts = nom / sqrt( den );
+    p = normcdf( -abs( ts ), 0, 1 );
+    method = 'gaussian';
+end
+
+% translate p-value according to test type
+
+if ~test
+    p = 2 * p;
+elseif ( test == 1 && R < expcR ) || ( test == -1 && R > expcR )
+    p = 1 - p;
+end
+
+return  %utest_local
 %------------------------------------------------------------------------%

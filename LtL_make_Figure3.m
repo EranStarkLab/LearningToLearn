@@ -7,7 +7,7 @@
 %
 % 
 % Calls:
-%               nothing
+%               LtL_calc_mr_svr
 %
 % Reference:
 %               Levi, Aviv, Stark, 2024 
@@ -17,7 +17,7 @@
 % 27-Mar-24 ES and AL
 
 % last update
-% 25-may-24
+% 26-may-24
 
 
 function  LtL_make_Figure3( tablename )
@@ -195,6 +195,7 @@ uexp = unique(expSL);
 nexp = length(uexp);
 mean_succ = NaN(nexp,1);
 sem_succ = NaN(nexp,1);
+isSSL = all_SSL(idxSL);
 
 for i = 1:nexp
     idx = ismember(expSL,uexp(i));
@@ -345,9 +346,9 @@ title('Figure 3D2')
 Y = [expSL intraSL interSL];
 figure;
 [ pcc, cc, ~, ~, R2 ] = calc_mr_local( succSL,Y);
-barwerror(1:3,cc(:,1));
+barwerror_local(1:3,cc(:,1));
 hold on
-h= barwerror(1:3,pcc(:,1),pcc(:,2),[0 0 0]);
+h= barwerror_local(1:3,pcc(:,1),pcc(:,2),[0 0 0]);
 set(h,'FaceColor','none')
 set(h,'EdgeColor','k')
 set(h,'LineWidth' ,2)
@@ -361,7 +362,98 @@ set(gca,'XTickLabel',{'session ordinate'; 'intra-criterion distance'; 'inter-cri
 
 % plot figure 3F - Variance in block success rate (R2) explained by
 % cross-validated support vector regression models
+Y = [intraSL interSL expSL];
+mat = [succSL Y];
+sv_preprocess                   = 'scale';
+sv_model                        = 'svr';
 
+% cross-validated SVR:
+% get the variance for the R2's
+nreps                           = 20;
+R2_svr                          = NaN( nreps, 1 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2, res, fig ]            =  LtL_calc_mr_svr( mat( :, 2 : 4 ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr( i )                 = R2;
+end
+        
+% model comparison (importance):
+R2_svr_models                   = NaN( nreps, 3 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2_1, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_2, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 3 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_3, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr_models( i, : )       = [ R2_1 R2_2 R2_3];
+end
+
+figure
+boxplot( R2_svr_models, 'notch', 'on' )
+set( gca, 'tickdir', 'out', 'box', 'off' )
+alines_local(median(R2_svr),'y')
+axis square
+ylim([0 0.5])
+pv = [];
+for i = 1:3
+    pv(i) = utest_local( R2_svr_models( :, i ), R2_svr );
+end
+title(sprintf('Figure 3F \n SVR, pv = %0.2g,%0.2g,%0.2g',pv));
+ylabel('Success rate R^2')
+set(gca,'XTickLabel',{'session ordinate removed';'Intra-criterion removed';'inter-criterion removerd'});
+
+% plot figure 3G -Accuracy in predicting SSL using 
+% cross-validated support vector classification.
+mat = [isSSL Y];
+sv_preprocess                   = 'scale';
+sv_model                        = 'svm';
+
+
+% cross-validated SVM:
+% get the variance for the R2's
+nreps                           = 20;
+R2_svr                          = NaN( nreps, 1 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2, res, fig ]            =  LtL_calc_mr_svr( mat( :, 2 : 4 ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr( i )                 = R2;
+end
+        
+% model comparison (importance):
+R2_svr_models                   = NaN( nreps, 3 );
+for i                           = 1 : nreps
+    fprintf( 1, '%d ', i )
+    if mod( i, 10 ) == 0
+        fprintf( 1, '\n' )
+    end
+    [ R2_1, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 3 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_2, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 3 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    [ R2_3, res, fig ]          =  LtL_calc_mr_svr( mat( :, [ 2 4 ] ), mat( :, 1 ), 'nfold', 10, 'model', sv_model, 'preprocess', sv_preprocess );
+    R2_svr_models( i, : )       = [ R2_1 R2_2 R2_3 ];
+end
+
+
+figure
+boxplot( R2_svr_models, 'notch', 'on' )
+set( gca, 'tickdir', 'out', 'box', 'off' )
+alines_local(median(R2_svr),'y','LineStyle','--');
+axis square
+ylim([0.5 1.1])
+pv = [];
+for i = 1:3
+    pv(i) = utest_local( R2_svr_models( :, i ), R2_svr );
+end
+title(sprintf('Figure 3G \n SVM, pv = %0.2g,%0.2g,%0.2g',pv));
+ylabel('SSL accuracy')
+set(gca,'XTickLabel',{'session ordinate removed';'Intra-criterion removed';'inter-criterion removerd'});
 
 return           %LtL_make_Figure3
 
