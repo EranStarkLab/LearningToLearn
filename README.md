@@ -34,15 +34,15 @@ http://www.csie.ntu.edu.tw/~cjlin/libsvm
 
 ### Wrappers
 - LtL_make_Figure2.m
-  - Generated Figure 2
+  - Generates Figure 2
 - LtL_make_Figure3.m
-  - Generated Figure 3
+  - Generates Figure 3
 - LtL_make_Figure4.m
-  - Generated Figure 4
+  - Generates Figure 4
 - LtL_make_FigureS1.m
-  - Generated Figure S1
+  - Generates Figure S1
 - LtL_make_FigureS2.m
-  - Generated Figure S2
+  - Generates Figure S2
 
 ### Utilities
 - LtL_bayescount.m
