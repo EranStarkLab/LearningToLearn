@@ -10,25 +10,8 @@ single session, a capacity that enhances with experience and varies with rule di
 Furthermore, mice exhibit flexibility in learning strategy, based on the physical conditions of the
 task. 
 
-The code available in this repository was used to perform the analysis resulting in Figures 2-4 and supplementary Figures S1-S2 of the paper.
+The code available in this repository was used to perform the analyses resulting in Figures 2-4 and supplementary Figures S1-S2 of the paper.
 
-## To run the code
-1. Download all routines and the [data](https://zenodo.org/records/10810847).
-2. Open MATLAB and add the repository folder to the path.
-3. Use the Matlab mex.m function to compile the C utilities:
-   - mex parsec.c
-   - mex zsc.c
-4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package.
-Libsvm is a simple, easy-to-use, and efficient software for SVM
-classification and regression. It solves C-SVM classification, nu-SVM
-classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
-regression. It also provides an automatic model selection tool for
-C-SVM classification.
-5. Follow the Libsvm README file for instructions on package installation.
-6. Run the routines. For example, to plot Figure 2, write in MATLAB:
-- tablename = 'PATH_TO_REPOSITORY_FOLDER\levi2024_dataset';
-- LtL_make_Figure2( tablename );
- 
 ## Routines
 
 ### Wrappers
@@ -108,5 +91,21 @@ These utility functions are operating system specific and require compiling in M
     - SSL index
     - MSL index
 
-
+## To run the code
+1. Download all routines and the [data](https://zenodo.org/records/10810847).
+2. Open MATLAB and add the repository folder to the path.
+3. Use the Matlab mex.m function to compile the C utilities:
+   - mex parsec.c
+   - mex zsc.c
+4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package.
+Libsvm is a simple, easy-to-use, and efficient software for SVM
+classification and regression. It solves C-SVM classification, nu-SVM
+classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
+regression. It also provides an automatic model selection tool for
+C-SVM classification.
+5. Follow the Libsvm README file for instructions on package installation.
+6. Run the routines. For example, to plot Figure 2, write in MATLAB:
+- tablename = 'PATH_TO_REPOSITORY_FOLDER\levi2024_dataset';
+- LtL_make_Figure2( tablename );
+ 
 
