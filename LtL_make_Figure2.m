@@ -77,7 +77,7 @@ ylim([0 1])
 xlim([0 numblcok+1])
 xlabel('Block number')
 ylabel('Success rate')
-alines_local(0.5,'y','LineStyle', '--')
+alines_local(0.5,'y','LineStyle', '--');
 title('Figure 2A')
 
 % plot figure 2B - example of MSL session from m4:
@@ -118,7 +118,7 @@ ylim([0 1])
 xlim([0 numblcok+1])
 xlabel('Block number')
 ylabel('Success rate')
-alines_local(0.5,'y','LineStyle', '--')
+alines_local(0.5,'y','LineStyle', '--');
 title('Figure 2B')
 
 % plot figure 2C - Calculate slopes of SSL and MSL
@@ -167,8 +167,8 @@ axis square
 xlim([-0.07 0.07])
 ylabel('Rules')
 xlabel('Slope')
-alines_local(0,'x','LineStyle','--','Color',[0 0 0])
-alines_local(mean(slope_SSL),'x','LineStyle','--','Color',[0 0 1])
+alines_local(0,'x','LineStyle','--','Color',[0 0 0]);
+alines_local(mean(slope_SSL),'x','LineStyle','--','Color',[0 0 1]);
 pv = signrank(slope_SSL);
 title(sprintf('pv = %0.2g',pv));
 
@@ -179,8 +179,8 @@ axis square
 xlim([0 1])
 ylabel('Rules')
 xlabel('Initial success rate')
-alines_local(0.5,'x','LineStyle','--','Color',[0 0 0])
-alines_local(mean(Intercepts_SSL),'x','LineStyle','--','Color',[0 0 1])
+alines_local(0.5,'x','LineStyle','--','Color',[0 0 0]);
+alines_local(mean(Intercepts_SSL),'x','LineStyle','--','Color',[0 0 1]);
 pv = signrank(Intercepts_SSL,0.5);
 title(sprintf('pv = %0.2g',pv));
 
@@ -232,8 +232,8 @@ axis square
 xlim([-0.07 0.07])
 ylabel('Rules')
 xlabel('Slope')
-alines_local(0,'x','LineStyle','--','Color',[0 0 0])
-alines_local(mean(slope_MSL),'x','LineStyle','--','Color',[0 0 1])
+alines_local(0,'x','LineStyle','--','Color',[0 0 0]);
+alines_local(mean(slope_MSL),'x','LineStyle','--','Color',[0 0 1]);
 pv = signrank(slope_MSL);
 title(sprintf('pv = %0.2g',pv));
 
@@ -244,8 +244,8 @@ axis square
 xlim([0 1])
 ylabel('Rules')
 xlabel('Initial success rate')
-alines_local(0.5,'x','LineStyle','--','Color',[0 0 0])
-alines_local(mean(Intercepts_MSL),'x','LineStyle','--','Color',[0 0 1])
+alines_local(0.5,'x','LineStyle','--','Color',[0 0 0]);
+alines_local(mean(Intercepts_MSL),'x','LineStyle','--','Color',[0 0 1]);
 pv = signrank(Intercepts_MSL,0.5);
 title(sprintf('pv = %0.2g',pv));
 
@@ -278,7 +278,7 @@ xlim([0 1])
 ylim([0.4 0.9])
 set(gca, 'TickDir','out','Box','off')
 axis square
-alines_local(0.5,'y','LineStyle','--','Color',[0 0 0])
+alines_local(0.5,'y','LineStyle','--','Color',[0 0 0]);
 ylabel('Success rate')
 xlabel('Fraction of learning passed')
 pv = NaN(10,1);
@@ -316,7 +316,7 @@ xlim([0 11])
 ylim([0 1])
 set(gca, 'TickDir','out','Box','off')
 axis square
-alines_local(0.5,'y','LineStyle','--','Color',[0 0 0])
+alines_local(0.5,'y','LineStyle','--','Color',[0 0 0]);
 ylabel('Success rate: first-block trials')
 xlabel('Number of first-block trials')
 title('Figure 2E')
@@ -366,7 +366,7 @@ xlim([0 1])
 ylim([0 1])
 set(gca, 'TickDir','out','Box','off')
 axis square
-alines_local(0.5,'y','LineStyle','--','Color',[0 0 0])
+alines_local(0.5,'y','LineStyle','--','Color',[0 0 0]);
 ylabel('Success rate: all non-first blocks')
 xlabel('Success rate - first block, 3 trials')
 [cc, pv] = calc_spearman_local([SSL_first3;MSL_first3],[SSL_rest_of_session;MSL_rest_of_session],1000);
