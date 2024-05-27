@@ -85,16 +85,16 @@ These utility functions are operating system specific and require compiling in M
     - Trial ordinate within block
     - Rule number
     - Rule ordinate for each mouse
-    - session ordinate for each mouse
+    - Session ordinate for each mouse
     - Intra-criterion distance
     - Inter-criterion distance
     - SSL index
     - MSL index
 
 ## To run the code
-1. Download all routines and the [data](https://zenodo.org/records/10810847).
+1. Download all routines and [data](https://zenodo.org/records/10810847).
 2. Open MATLAB and add the repository folder to the path.
-3. Use the Matlab mex.m function to compile the C utilities:
+3. Use the mex.m function to compile the C utilities:
    - mex parsec.c
    - mex zsc.c
 4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package.
@@ -103,7 +103,7 @@ classification and regression. It solves C-SVM classification, nu-SVM
 classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
 regression. It also provides an automatic model selection tool for
 C-SVM classification.
-5. Follow the Libsvm README file for instructions on package installation.
+5. Follow the libsvm README file for instructions on package installation.
 6. Run the routines. For example, to plot Figure 2, write in MATLAB:
 - tablename = 'PATH_TO_REPOSITORY_FOLDER\levi2024_dataset';
 - LtL_make_Figure2( tablename );
