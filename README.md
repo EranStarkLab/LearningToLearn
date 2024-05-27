@@ -18,14 +18,12 @@ The code available in this repository was used to perform the analysis resulting
 3. Use the Matlab mex.m function:
    - mex parsec.c
    - mex zsc.c
-4. Download the libsvm package:
+4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package:
 Libsvm is a simple, easy-to-use, and efficient software for SVM
 classification and regression. It solves C-SVM classification, nu-SVM
 classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
 regression. It also provides an automatic model selection tool for
 C-SVM classification.
-Libsvm is available at
-http://www.csie.ntu.edu.tw/~cjlin/libsvm
 5. Follow the Libsvm README file for instruction on the package installation
 6. Run the routines. For example, to plot Figure 2, write in MATLAB:
 - tablename = 'PATH_TO_DEPOSITORY_FOLDER\levi2024_dataset';
