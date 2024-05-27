@@ -144,7 +144,7 @@ C = tril(C,-1);
 C(C==0) = NaN;
 C(logical(eye(size(C)))) = 1;
 figure;
-imagescnan(C)
+imagescnan(C);
 set(gca,'YDir','Reverse')  
 colormap('myjet')
 set(gca, 'TickDir','out','Box','off');
