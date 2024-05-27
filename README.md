@@ -1,6 +1,6 @@
 ## **LearningToLearn**
 
-This repository contains MATLAB a C routines used to generate the Figures of [Levi, Aviv, and Stark (2024) "Learning to learn: Single session acquisition of new rules by freely moving mice", PNAS Nexus](https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
+This repository contains MATLAB and C routines used to generate the Figures of [Levi, Aviv, and Stark (2024) "Learning to learn: Single session acquisition of new rules by freely moving mice", PNAS Nexus](https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
 
 ## Overview
 Humans excel at learning from examples and adapting to new rules, but conditions for
