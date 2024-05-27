@@ -8,7 +8,9 @@ efficient learning in non-human subjects are unclear. We explored the rapid adap
 to new rules using a visual discrimination task. We found that mice can learn a new rule within a
 single session, a capacity that enhances with experience and varies with rule difficulty.
 Furthermore, mice exhibit flexibility in learning strategy, based on the physical conditions of the
-task. Our findings provide insights into the behavioral mechanisms that allow for fast learning, suggesting a framework for rule learning as part of a multilevel learning scheme.
+task. 
+
+Our findings provide insights into the behavioral mechanisms that allow for fast learning, suggesting a framework for rule learning as part of a multilevel learning scheme.
 
 The code available in this repository was used to perform the analyses resulting in Figures 2-4 and supplementary Figures S1-S2 of the paper.
 
