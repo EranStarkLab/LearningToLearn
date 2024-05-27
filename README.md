@@ -45,7 +45,7 @@ The code available in this repository was used to perform the analyses resulting
   - Parse a vector to sets of points, each of consecutive values.
 
 ### C Utilities
-These utility functions are operating system specific and require compiling in MATLAB (see section 'To run the code' above). 
+These utility functions are operating system specific and require compiling in MATLAB (see section 'To run the code' below). 
 - parsec.c
   - Parse a sorted array
 - zcs.c
