@@ -1,6 +1,6 @@
 ## **LearningToLearn**
 
-This repository contains MATLAB routines used to generate the Figures of Levi, Aviv, Stark, 2024, PNAS Nexsus (https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
+This repository contains MATLAB routines used to generate the Figures of Levi, Aviv, and Stark (2024) "Learning to learn: Single session acquisition of new rules by freely moving mice", PNAS Nexus (https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
 
 ## Overview
 Humans excel at learning from examples and adapting to new rules, but conditions for
@@ -8,15 +8,17 @@ efficient learning in non-human subjects are unclear. We explored the rapid adap
 to new rules using a visual discrimination task. We found that mice can learn a new rule within a
 single session, a capacity that enhances with experience and varies with rule difficulty.
 Furthermore, mice exhibit flexibility in learning strategy, based on the physical conditions of the
-task. The code available in this repository was used to perform the analysis resulting in Figures 2-4 and supplamentry Figures S1-S2 of the paper "Learning to learn: Single session acquisition of new rules by freely-moving mice".
+task. 
+
+The code available in this repository was used to perform the analysis resulting in Figures 2-4 and supplementary Figures S1-S2 of the paper.
 
 ## To run the code
 1. Download all routines and data.
-2. Open Matlab and add the depository folder to the Malab path.
+2. Open MATLAB and add the repository folder to the path.
 3. Use the Matlab mex.m function:
    - mex parsec.c
    - mex zsc.c
-4. Download the Libsvm package:
+4. Download the libsvm package:
 Libsvm is a simple, easy-to-use, and efficient software for SVM
 classification and regression. It solves C-SVM classification, nu-SVM
 classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
@@ -24,11 +26,10 @@ regression. It also provides an automatic model selection tool for
 C-SVM classification.
 Libsvm is available at
 http://www.csie.ntu.edu.tw/~cjlin/libsvm
-
 5. Follow the Libsvm README file for instruction on the package installation
-6. For example, to plot Figure 2, write in matlab:
+6. Run the routines. For example, to plot Figure 2, write in MATLAB:
 - tablename = 'PATH_TO_DEPOSITORY_FOLDER\levi2024_dataset';
-- LtL_make_Figure2(tablename)
+- LtL_make_Figure2(tablename);
  
 ## Routines
 
