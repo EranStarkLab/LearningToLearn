@@ -19,7 +19,6 @@
 % last update
 % 25-may-24
 
-
 function  LtL_make_Figure4( tablename )
 
 % argument handling
@@ -28,8 +27,8 @@ if nargs < 1 || isempty( tablename )
     error( 'Path to dataset is required' )
 end
 
-%load sheet1 from the table:
-AA = readtable(tablename,'Sheet',2);
+% load sheet2 from the table:
+AA = readtable(tablename,'Sheet',2,'VariableNamingRule','preserve');
 
 if isempty(AA)
     error('Dataset is not available' )
