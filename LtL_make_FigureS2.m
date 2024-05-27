@@ -27,8 +27,8 @@ if nargs < 1 || isempty( tablename )
     error( 'Path to dataset is required' )
 end
 
-%load sheet1 from the table:
-AA = readtable(tablename,'Sheet',1);
+% load sheet1 from the table:
+AA = readtable(tablename,'Sheet',1,'VariableNamingRule','preserve');
 
 if isempty(AA)
     error('Dataset is not available' )
