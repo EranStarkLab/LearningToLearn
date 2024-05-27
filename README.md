@@ -1,6 +1,6 @@
 ## **LearningToLearn**
 
-This repository contains MATLAB routines used to generate the Figures of Levi, Aviv, and Stark (2024) "Learning to learn: Single session acquisition of new rules by freely moving mice", PNAS Nexus (https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
+This repository contains MATLAB routines used to generate the Figures of [Levi, Aviv, and Stark (2024) "Learning to learn: Single session acquisition of new rules by freely moving mice", PNAS Nexus](https://academic.oup.com/pnasnexus/advance-article/doi/10.1093/pnasnexus/pgae203/7676433)
 
 ## Overview
 Humans excel at learning from examples and adapting to new rules, but conditions for
@@ -13,21 +13,21 @@ task.
 The code available in this repository was used to perform the analysis resulting in Figures 2-4 and supplementary Figures S1-S2 of the paper.
 
 ## To run the code
-1. Download all routines and data.
+1. Download all routines and the [data](https://zenodo.org/records/10810847).
 2. Open MATLAB and add the repository folder to the path.
-3. Use the Matlab mex.m function:
+3. Use the Matlab mex.m function to compile the C utilities:
    - mex parsec.c
    - mex zsc.c
-4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package:
+4. Download the [libsvm](http://www.csie.ntu.edu.tw/~cjlin/libsvm) package.
 Libsvm is a simple, easy-to-use, and efficient software for SVM
 classification and regression. It solves C-SVM classification, nu-SVM
 classification, one-class-SVM, epsilon-SVM regression, and nu-SVM
 regression. It also provides an automatic model selection tool for
 C-SVM classification.
-5. Follow the Libsvm README file for instruction on the package installation
+5. Follow the Libsvm README file for instructions on package installation.
 6. Run the routines. For example, to plot Figure 2, write in MATLAB:
-- tablename = 'PATH_TO_DEPOSITORY_FOLDER\levi2024_dataset';
-- LtL_make_Figure2(tablename);
+- tablename = 'PATH_TO_REPOSITORY_FOLDER\levi2024_dataset';
+- LtL_make_Figure2( tablename );
  
 ## Routines
 
@@ -44,23 +44,23 @@ C-SVM classification.
   - Generates Figure S2
 
 ### Utilities
+- imagescnan.m
+  - Image in myjet colormap on current plot, NaNs in white.
 - LtL_bayescount.m
-  - Compute the number of bins for bias calculation, using the Bayes counting procedure of Panzeri&Treves 96
+  - Compute the number of bins for bias calculation, using the Bayes counting procedure of Panzeri&Treves 96.
 - LtL_calc_bias_PT.m
-  - Calculate an analytical estimate of MI bias from a joint probability table
+  - Calculate an analytical estimate of MI bias from a joint probability table.
+- LtL_make_equal_bins
+  - assign indices to data such that equal sized bins.
 - LtL_mutinf.m
-  - Mutual information from empirical distributions/counts
+  - Mutual information from empirical distributions/counts.
+- LtL_ParseArgPairs.m
+  - Flexible argument assigning.
 - myjet.m
   - Modified jet with extreme values in pure R,B.
-- LtL_ParseArgPairs.m
-  - Flexible argument assigning
 - parse.m
-  - Parse a vector to sets of points
-- imagescnan.m
-  - Image in myjet colormap on current plot
-- LtL_make_equal_bins
-  - assign indices to data such that equal sized bins
- 
+  - Parse a vector to sets of points, each of consecutive values.
+
 ### C Utilities
 These utility functions are operating system specific and require compiling in MATLAB (see section 'To run the code' above). 
 - parsec.c
@@ -69,7 +69,7 @@ These utility functions are operating system specific and require compiling in M
   - Compute the Z-score of the columns of a given matrix
 
 ### Data
-- levi2024_dataset - excell sheet with the mice data
+- The data are available at [Zenodo](https://zenodo.org/records/10810847), as an Excel sheet. Every row represents a single trial. Columns are organized as following:
   - Sheet1: Data for Figures 1-3, S1-S2
     - Reward location
     - Trial result
@@ -78,7 +78,7 @@ These utility functions are operating system specific and require compiling in M
     - Trial ordinate within block
     - Rule number
     - Rule ordinate for each mouse
-    - session ordinate for each mouse
+    - Session ordinate for each mouse
     - Intra-criterion distance
     - Inter-criterion distance
     - Success rate in the first trial of the session
