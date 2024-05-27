@@ -54,7 +54,7 @@ These utility functions are operating system specific and require compiling in M
   - Compute the Z-score of the columns of a given matrix
 
 ### Data
-- The data are available at [Zenodo](https://zenodo.org/records/10810847), as an Excel sheet. Every row represents a single trial. Columns are organized as following:
+- The data are available at [Zenodo](https://zenodo.org/records/11305363), as an Excel sheet. Every row represents a single trial. Columns are organized as following:
   - Sheet1: Data for Figures 1-3, S1-S2
     - Reward location
     - Trial result
@@ -94,7 +94,7 @@ These utility functions are operating system specific and require compiling in M
     - MSL index
 
 ## To run the code
-1. Download all routines and [data](https://zenodo.org/records/10810847).
+1. Download all routines and [data](https://zenodo.org/records/11305363).
 2. Open MATLAB and add the repository folder to the path.
 3. Use the mex.m function to compile the C utilities:
    - mex parsec.c
