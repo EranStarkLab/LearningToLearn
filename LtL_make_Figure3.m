@@ -10,9 +10,9 @@
 %               LtL_calc_mr_svr
 %
 % Reference:
-%               Levi, Aviv, Stark, 2024 
-%               "Learning to learn: Single session acquisition of new rules by freely-moving mice", 
-%               PNAS nexus
+%               Levi, Aviv, and Stark, 2024 
+%               "Learning to learn: Single session acquisition of new rules by freely moving mice", 
+%               PNAS Nexus
 
 % 27-Mar-24 ES and AL
 
