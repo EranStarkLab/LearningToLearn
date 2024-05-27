@@ -19,8 +19,7 @@
 % last update
 % 25-may-24
 
-
-function  LtL_make_Figure2( tablename )
+function LtL_make_Figure2( tablename )
 
 % argument handling
 nargs                           = nargin;
