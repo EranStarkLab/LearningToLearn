@@ -212,7 +212,7 @@ end
 figure
 boxplot( R2_svr_models, 'notch', 'on' )
 set( gca, 'tickdir', 'out', 'box', 'off' )
-alines_local(median(R2_svr),'y')
+alines_local(median(R2_svr),'y');
 axis square
 ylim([0 0.5])
 pv = [];
