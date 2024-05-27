@@ -1,8 +1,8 @@
-% LtL_calc_mr_svr                   SVR/QR (regression) or SVM (classification)
+% LtL_calc_mr_svr               SVR/QR (regression) or SVM (classification)
 %
 % does                          cross-validated regresssion/classification
 %
-% call                          [ R2, res, fig ] = calc_mr_svr2( x, y )
+% call                          [ R2, res, fig ] = LtL_calc_mr_svr( x, y )
 %
 % returns                       R2 (svr/qr) or PC (svm)
 %
